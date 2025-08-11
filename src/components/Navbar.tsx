@@ -1,10 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
-import { HomeIcon, LogIn, Sprout } from "lucide-react";
+import { HomeIcon, LogIn, LogOut, Sprout } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 import { stackServerApp } from "@/stack";
 import { getUserDetails } from "@/actions/user.actions";
+import { UserButton } from "@stackframe/stack";
 
 const Navbar = async () => {
   const user = await stackServerApp.getUser();
@@ -44,13 +45,37 @@ const Navbar = async () => {
               </Link>
             </Button>
             <ModeToggle />
-            {/* Signin button */}
-            <Button variant="ghost" className="flex items-center gap-2" asChild>
-              <Link href={app.signIn}>
-                <LogIn className="w-4 h-4" />
-                <span className="hidden md:inline">Signin</span>
-              </Link>
-            </Button>
+
+            {!user ? (
+              <>
+                {/* Signin button */}
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-2"
+                  asChild
+                >
+                  <Link href={app.signIn}>
+                    <LogIn className="w-4 h-4" />
+                    <span className="hidden md:inline">Signin</span>
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                {/* Sign out  button */}
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-2"
+                  asChild
+                >
+                  <Link href={app.signOut}>
+                    <LogOut className="w-4 h-4" />
+                    <span className="hidden md:inline">Sign out</span>
+                  </Link>
+                </Button>
+                <UserButton />
+              </>
+            )}
           </div>
         </div>
       </div>
